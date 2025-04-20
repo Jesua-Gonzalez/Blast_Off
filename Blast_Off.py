@@ -78,3 +78,32 @@ class Autonomous_Spacecraft(Spacecraft):
         info = super().get_info()  #obtains class info of the main class
         info["autonomy_level"] = self.autonomy_level  #add to dicitonary the level
         return info
+    
+
+
+
+
+    class Mission:
+    def __init__(self, name, destination, spacecraft):      #this class is defined with the name, destination, and spacecraft assigned 
+        self.name = name                                    
+        self.destination = destination
+        self.spacecraft = spacecraft
+        self.status = "Planned"
+
+
+    def launch(self):                           #launch status willl change when astornaut count is greater than zero
+        if len(self.spacecraft.crew) > 0:
+            self.status = "Ongoing"
+        else:
+            print(f"Minimum astronauts neeeded for mission '{self.name}' to proceed has not been aqcuired")
+
+
+    def complete(self):
+        self.status = "Completed"
+
+
+    def get_info(self):
+        return { "name": self.name,
+                 "destination": self.destination,
+                 "spacecraft": self.spacecraft.name,
+                 "status": self.status }
