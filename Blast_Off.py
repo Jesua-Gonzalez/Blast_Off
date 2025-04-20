@@ -47,4 +47,34 @@ class Spacecraft:
         return { "name": self.name,
                  "capacity": self.capacity,
                  "crew": self.list_crew() }
-  
+
+
+
+
+
+class Autonomous_Spacecraft(Spacecraft):
+    def __init__ (self, name, autonomy_level):      #this class is defined with the name, and autonomy level
+        super().__init__(name, capacity=0)          #super helps bridge connecting classes when on inherits the other
+
+        if not isinstance(autonomy_level, int):
+            raise ValueError("Error: autonomy_level must be a whole number between 1 and 10.")          #safties incase autonomy level input is not correct
+
+        if autonomy_level < 1 or autonomy_level > 10:
+            raise ValueError("Error: autonomy_level must be between 1 and 10.")
+        
+        self.autonomy_level = autonomy_level            
+        self.crew = []          #needed attribute to call this functions later on using get_info(self) + autonomy = 0 since its aka autonomous
+
+
+    def add_astronaut(self, *astronauts):
+        print(f"This is an autonomous spacecraft: {self.name}, and it does not allow passangers to be added.")
+
+
+    def list_crew(self):
+        return [astronaut.name for astronaut in self.crew]
+
+
+    def get_info(self):
+        info = super().get_info()  #obtains class info of the main class
+        info["autonomy_level"] = self.autonomy_level  #add to dicitonary the level
+        return info
