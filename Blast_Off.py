@@ -1,4 +1,4 @@
-
+import unittest
 
 class Astronaut:
     def __init__(self, name, role, experience = 0, **kwargs):   #this class is defined with the name, role, experience and additional info. in kwargs
@@ -83,7 +83,7 @@ class Autonomous_Spacecraft(Spacecraft):
 
 
 
-    class Mission:
+class Mission:
     def __init__(self, name, destination, spacecraft):      #this class is defined with the name, destination, and spacecraft assigned 
         self.name = name                                    
         self.destination = destination
@@ -107,3 +107,45 @@ class Autonomous_Spacecraft(Spacecraft):
                  "destination": self.destination,
                  "spacecraft": self.spacecraft.name,
                  "status": self.status }
+    
+
+
+
+
+#Import unittest and runnning it
+class TestSpaceProgram(unittest.TestCase):
+    def test_astronaut_gain_experience(self):
+        astrojesua = Astronaut("Test Astronaut", "Driver")
+        astrojesua.gain_experience()
+        self.assertEqual(astrojesua.experience, 1)
+    
+    def test_spacecraft_add_astronaut(self):
+        rocket = Spacecraft("Test Ship", 1)     #checks the addition of astronauts and if capacity is exceeded
+        astro1 = Astronaut("Jesua Gonzalez", "Leader")
+        astro2 = Astronaut("Mr.Baruch College", "Worker")
+        rocket.add_astronaut(astro1)
+        rocket.add_astronaut(astro2)  
+        self.assertEqual(len(rocket.crew), 1)
+    
+    def test_autonomous_spacecraft_no_astronauts(self):
+        autonomous_rocket = Autonomous_Spacecraft("USS Enterprise", 5)  #trying to add passangers to autonomous USS enterprise
+        astro = Astronaut("Jesua Gonzalez", "Leader")
+        autonomous_rocket.add_astronaut(astro)  
+        self.assertEqual(len(autonomous_rocket.crew), 0)
+
+
+    def test_mission_lifecycle(self):
+        rocket = Spacecraft("TestShip", 2)
+        astro = Astronaut("Jesua Gonzalez", "Leader")
+        rocket.add_astronaut(astro)
+        mission = Mission("TestMission", "Pluto", rocket)
+        self.assertEqual(mission.status, "Planned")
+        
+        mission.launch()
+        self.assertEqual(mission.status, "Ongoing")
+        
+        mission.complete()
+        self.assertEqual(mission.status, "Completed")
+
+if __name__ == "__main__":
+    unittest.main()
